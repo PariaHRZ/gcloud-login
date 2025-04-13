@@ -108,7 +108,7 @@ fetch("/api/webhook", {
 
 ## 📄 Licence
 
-MIT – libre d’adaptation à des fins pédagogiques.
+[MIT – libre d’adaptation à des fins pédagogiques.](https://github.com/PariaHRZ/gcloud-login/blob/main/LICENSE)
 
 ---
 
