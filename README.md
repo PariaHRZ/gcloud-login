@@ -115,3 +115,8 @@ fetch("/api/webhook", {
 ## 🔗 Démo
 
 🔗 [https://gcloud-login-git-main-pariahrzs-projects.vercel.app/](https://gcloud-login-git-main-pariahrzs-projects.vercel.app/)
+
+OU
+
+![qr_code_simple](https://github.com/user-attachments/assets/632e655f-7d6c-43ad-b329-03e0f32c0be0)
+
