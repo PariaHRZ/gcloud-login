@@ -118,5 +118,5 @@ fetch("/api/webhook", {
 
 OU
 
-![qr_code_simple](https://github.com/user-attachments/assets/632e655f-7d6c-43ad-b329-03e0f32c0be0)
+<img src="https://github.com/user-attachments/assets/632e655f-7d6c-43ad-b329-03e0f32c0be0" width="450"/>
 
